@@ -13,6 +13,13 @@ expected values the packet is dropped, otherwise it is forwarded to a port read
 from the packet header. The AES key expansion and subkey derivation for AES-CMAC
 are handled by the control plane.
 
+Building
+--------
+AES-ECB-1Pipes and AES-ECB-2Pipes only build with SDE 9.13.0. Building with
+9.13.3 fails because of the line
+`@in_hash { KEY ## .c0 = byte0_b##B ++ byte1_b##B ++ byte2_b##B ++ byte3_b##B; }`
+in `aes.p4`.
+
 Contributors
 ------------
 - Lars-Christian Schulz, NetSys Lab OvGU Magdeburg
