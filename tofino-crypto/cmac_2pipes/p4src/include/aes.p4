@@ -252,10 +252,10 @@
     tab_bB_rR_t3_c0(B, R, STATE) \
     tab_bB_rR_t3_c1(B, R, STATE) \
     tab_bB_rR_t3_c2(B, R, STATE) \
-    tab_bB_rR_t3_c3(B, R, STATE) \
+    tab_bB_rR_t3_c3(B, R, STATE)
 
 // Apply T-tables to state for block B and round R.
-#define APPLY_T_TABLES(B, R, STATE) \
+#define APPLY_T_TABLES(B, R, STATE) { \
     tab_b ## B ## _r ## R ## _t0_c0.apply(); \
     tab_b ## B ## _r ## R ## _t0_c1.apply(); \
     tab_b ## B ## _r ## R ## _t0_c2.apply(); \
@@ -275,7 +275,8 @@
     STATE ## .c0 = col0_b ## B; \
     STATE ## .c1 = col1_b ## B; \
     STATE ## .c2 = col2_b ## B; \
-    STATE ## .c3 = col3_b ## B
+    STATE ## .c3 = col3_b ## B; \
+}
 
 /** S-Tables for Round 10 **/
 // The last round of does not use the mix columns transformation.
@@ -445,10 +446,10 @@
     tab_bB_rR_s3_c0(B, R, STATE) \
     tab_bB_rR_s3_c1(B, R, STATE) \
     tab_bB_rR_s3_c2(B, R, STATE) \
-    tab_bB_rR_s3_c3(B, R, STATE) \
+    tab_bB_rR_s3_c3(B, R, STATE)
 
 // Apply S-tables to state for block B and round R.
-#define APPLY_S_TABLES(B, R, STATE) \
+#define APPLY_S_TABLES(B, R, STATE) { \
     tab_b ## B ## _r ## R ## _s0_c0.apply(); \
     tab_b ## B ## _r ## R ## _s0_c1.apply(); \
     tab_b ## B ## _r ## R ## _s0_c2.apply(); \
@@ -468,6 +469,7 @@
     STATE ## .c0 = col0_b ## B; \
     STATE ## .c1 = col1_b ## B; \
     STATE ## .c2 = col2_b ## B; \
-    STATE ## .c3 = col3_b ## B
+    STATE ## .c3 = col3_b ## B; \
+}
 
 #endif // INCLUDE_AES_P4_GUARD

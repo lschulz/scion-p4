@@ -82,7 +82,7 @@
     tab_bB_rR_sbox_byte3(B, R, KEY)
 
 // Calculate next round key for block B, round R.
-#define EXPAND_KEY(B, R, KEY) \
+#define EXPAND_KEY(B, R, KEY) { \
     tab_b ## B ## _r ## R ## _sbox_rcon_byte0.apply(); \
     tab_b ## B ## _r ## R ## _sbox_byte1.apply(); \
     tab_b ## B ## _r ## R ## _sbox_byte2.apply(); \
@@ -90,7 +90,8 @@
     @in_hash { KEY ## .c0 = byte0_b##B ++ byte1_b##B ++ byte2_b##B ++ byte3_b##B; } \
     KEY ## .c1 = KEY ## .c1 ^ KEY ## .c0; \
     KEY ## .c2 = KEY ## .c2 ^ KEY ## .c1; \
-    KEY ## .c3 = KEY ## .c3 ^ KEY ## .c2;
+    KEY ## .c3 = KEY ## .c3 ^ KEY ## .c2; \
+}
 
 /** T-Tables **/
 
@@ -306,10 +307,10 @@
     tab_bB_rR_t3_c0(B, R, STATE) \
     tab_bB_rR_t3_c1(B, R, STATE) \
     tab_bB_rR_t3_c2(B, R, STATE) \
-    tab_bB_rR_t3_c3(B, R, STATE) \
+    tab_bB_rR_t3_c3(B, R, STATE)
 
 // Apply T-tables to state for block B and round R.
-#define APPLY_T_TABLES(B, R, STATE) \
+#define APPLY_T_TABLES(B, R, STATE) { \
     tab_b ## B ## _r ## R ## _t0_c0.apply(); \
     tab_b ## B ## _r ## R ## _t0_c1.apply(); \
     tab_b ## B ## _r ## R ## _t0_c2.apply(); \
@@ -329,7 +330,8 @@
     STATE ## .c0 = col0_b ## B; \
     STATE ## .c1 = col1_b ## B; \
     STATE ## .c2 = col2_b ## B; \
-    STATE ## .c3 = col3_b ## B
+    STATE ## .c3 = col3_b ## B; \
+}
 
 /** S-Tables for Round 10 **/
 // The last round of does not use the mix columns transformation.
@@ -499,10 +501,10 @@
     tab_bB_rR_s3_c0(B, R, STATE) \
     tab_bB_rR_s3_c1(B, R, STATE) \
     tab_bB_rR_s3_c2(B, R, STATE) \
-    tab_bB_rR_s3_c3(B, R, STATE) \
+    tab_bB_rR_s3_c3(B, R, STATE)
 
 // Apply S-tables to state for block B and round R.
-#define APPLY_S_TABLES(B, R, STATE) \
+#define APPLY_S_TABLES(B, R, STATE) { \
     tab_b ## B ## _r ## R ## _s0_c0.apply(); \
     tab_b ## B ## _r ## R ## _s0_c1.apply(); \
     tab_b ## B ## _r ## R ## _s0_c2.apply(); \
@@ -522,15 +524,17 @@
     STATE ## .c0 = col0_b ## B; \
     STATE ## .c1 = col1_b ## B; \
     STATE ## .c2 = col2_b ## B; \
-    STATE ## .c3 = col3_b ## B
+    STATE ## .c3 = col3_b ## B; \
+}
 
 /** Add round key **/
 
 // Add (XOR) round key to state
-#define ADD_ROUND_KEY(B, KEY) \
+#define ADD_ROUND_KEY(B, KEY) { \
     hdr.block ## B ##.c0 = hdr.block ## B ##.c0 ^ KEY ## .c0; \
     hdr.block ## B ##.c1 = hdr.block ## B ##.c1 ^ KEY ## .c1; \
     hdr.block ## B ##.c2 = hdr.block ## B ##.c2 ^ KEY ## .c2; \
-    hdr.block ## B ##.c3 = hdr.block ## B ##.c3 ^ KEY ## .c3
+    hdr.block ## B ##.c3 = hdr.block ## B ##.c3 ^ KEY ## .c3; \
+}
 
 #endif // INCLUDE_AES_P4_GUARD
