@@ -1,0 +1,9 @@
+build
+scitra
+.venv
+__pycache__
+*.pyc
+*.log
+*.log.*
+*.pcap
+zlog-cfg-cur
